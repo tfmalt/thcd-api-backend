@@ -1,0 +1,9 @@
+{
+  "name": "thcd-api-server",
+  "version": "0.1.0",
+  "description": "API backend for the thcd web app",
+  "main": "index.js",
+  "repository": "https://github.com/tfmalt/thcd-api-backend.git",
+  "author": "Thomas Malt <thomas@malt.no>",
+  "license": "MIT"
+}
