@@ -1,5 +1,5 @@
 {
-  "name": "thcd-api-server",
+  "name": "thcd-api-backend",
   "version": "0.1.0",
   "description": "API backend for the thcd web app",
   "main": "index.js",
