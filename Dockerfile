@@ -1,6 +1,6 @@
 # Lets start with the default node LTS image
-MAINTAINER thomas@malt.no
 FROM node:boron
+MAINTAINER thomas@malt.no
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
