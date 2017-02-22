@@ -24,12 +24,14 @@ app.use(expressWinston.logger({
 winston.info(`Starting THCD backend v${version}.`);
 
 app.get('/', (req, res) => {
+  res.set('Content-Type', 'application/json');
   res.send(JSON.stringify({
     test: 'Hello World'
   }) + '\n');
 });
 
 app.get('/rates/countries', (req, res) => {
+  res.set('Content-Type', 'application/json');
   let data = {
     description: 'Returns the list of countries with names seen in the data',
     version:     version,
@@ -41,6 +43,7 @@ app.get('/rates/countries', (req, res) => {
 
 app.get('/rates/:country/distribution', (req, res) => {
   let country = req.params.country.toUpperCase();
+  res.set('Content-Type', 'application/json');
   if (!rates.countries.includes(country)) {
     res.status(404).send(JSON.stringify({
       status:  '404 Not Found',
