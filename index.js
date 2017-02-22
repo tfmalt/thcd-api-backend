@@ -41,17 +41,17 @@ app.get('/rates/:country/distribution', (req, res) => {
     return;
   }
 
-  let distribution = rates.distribution(country);
+  let data = rates.getDataForCountry(country);
 
-  distribution.description = 'Distribution of handling charges for all ' +
+  data.description = 'Data on handling charges for all ' +
     'ports in a country.';
-  distribution.version = version;
+  data.version = version;
 
-  res.send(JSON.stringify(distribution) + '\n');
+  res.send(JSON.stringify(data) + '\n');
 });
 
 rates.loadModel().then( () => {
-  winston.info('Loaded data model for port rates.');
+  winston.info('  Loaded data model for port rates.');
   app.listen(PORT, () => {
     winston.info(`Running ${NODE_ENV} server on port ${PORT}.`);
   });
