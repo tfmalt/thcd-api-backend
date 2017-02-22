@@ -10,23 +10,33 @@ const NODE_ENV = process.env.NODE_ENV || 'production';
 
 const rates = new RatesController();
 
+app.disable('x-powered-by');
 app.use(expressWinston.logger({
   transports: [
     new winston.transports.Console({
-      json:     false,
-      colorize: true
+      json:      false,
+      colorize:  true,
+      timestamp: true
     })
   ]
 }));
 
 winston.info(`Starting THCD backend v${version}.`);
 
-app.disable('x-powered-by');
-
 app.get('/', (req, res) => {
   res.send(JSON.stringify({
     test: 'Hello World'
   }) + '\n');
+});
+
+app.get('/rates/countries', (req, res) => {
+  let data = {
+    description: 'Returns the list of countries with names seen in the data',
+    version:     version,
+    countries:   rates.countriesWithnames()
+  };
+
+  res.send(JSON.stringify(data) + '\n');
 });
 
 app.get('/rates/:country/distribution', (req, res) => {
@@ -50,8 +60,19 @@ app.get('/rates/:country/distribution', (req, res) => {
   res.send(JSON.stringify(data) + '\n');
 });
 
-rates.loadModel().then( () => {
+//
+// ... and load the model and start the server
+rates.loadModel()
+.then( () => {
   winston.info('  Loaded data model for port rates.');
+  return rates.fetchCountryNames();
+})
+.then( () => {
+  winston.info('  Loaded list of country names from: ' +
+    'http://data.okfn.org/data/core/country-list'
+  );
+})
+.then( () => {
   app.listen(PORT, () => {
     winston.info(`Running ${NODE_ENV} server on port ${PORT}.`);
   });
