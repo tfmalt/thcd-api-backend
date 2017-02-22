@@ -19,6 +19,8 @@ app.use(expressWinston.logger({
   ]
 }));
 
+winston.info(`Starting THCD backend v${version}.`);
+
 app.disable('x-powered-by');
 
 app.get('/', (req, res) => {
@@ -48,6 +50,9 @@ app.get('/rates/:country/distribution', (req, res) => {
   res.send(JSON.stringify(distribution) + '\n');
 });
 
-app.listen(PORT, () => {
-  winston.info(`Running ${NODE_ENV} server on port ${PORT}.`);
+rates.loadModel().then( () => {
+  winston.info('Loaded data model for port rates.');
+  app.listen(PORT, () => {
+    winston.info(`Running ${NODE_ENV} server on port ${PORT}.`);
+  });
 });
