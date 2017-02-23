@@ -1,3 +1,12 @@
+/**
+ * Express server implementing the API backend to serve data to the
+ * thcd test application. Basically a prototype. A lot of shortcuts has
+ * been taken.
+ *
+ * @author Thomas Malt <thomas@malt.no>
+ * @license MIT
+ */
+
 const express         = require('express');
 const winston         = require('winston');
 const expressWinston  = require('express-winston');
@@ -86,12 +95,16 @@ app.get('/rates/:country/distribution', (req, res) => {
   }
 
   let data = rates.getDataForCountry(country);
+  let result = {
+    percentiles:  data.percentiles,
+    outlierRatio: data.outlierRatio,
+    average:      data.average,
+    median:       data.median,
+    version:      version,
+    description:  'Data on handling charges for all ports in a country.'
+  };
 
-  data.description = 'Data on handling charges for all ' +
-    'ports in a country.';
-  data.version = version;
-
-  res.send(JSON.stringify(data) + '\n');
+  res.send(JSON.stringify(result) + '\n');
 });
 
 //
