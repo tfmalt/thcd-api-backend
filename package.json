@@ -1,6 +1,6 @@
 {
   "name": "thcd-api-backend",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "API backend for the thcd web app",
   "private": true,
   "main": "index.js",
@@ -16,7 +16,7 @@
     "winston": "^2.3.1"
   },
   "scripts": {
-    "start": "PORT=3001 NODE_ENV=development node ./index.js",
+    "start": "node ./index.js",
     "test": "NODE_ENV=test mocha **/*spec.js"
   },
   "devDependencies": {
