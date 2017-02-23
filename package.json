@@ -1,6 +1,6 @@
 {
   "name": "thcd-api-backend",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "API backend for the thcd web app",
   "private": true,
   "main": "index.js",
