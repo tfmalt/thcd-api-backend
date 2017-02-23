@@ -1,14 +1,14 @@
-# Lets start with the default node LTS image
-FROM node:boron
+# Lets start with a default node LTS image
+FROM node:boron-alpine
 MAINTAINER thomas@malt.no
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /usr/src/thcd
+WORKDIR /usr/src/thcd
 
-COPY package.json /usr/src/app
+COPY package.json /usr/src/thcd
 RUN npm install
 
-COPY . /usr/src/app
+COPY . /usr/src/thcd
 
 EXPOSE 3000
 
