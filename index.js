@@ -23,6 +23,37 @@ app.use(expressWinston.logger({
 
 winston.info(`Starting THCD backend v${version}.`);
 
+/**
+ * Code to implement rudimentary CORS support.
+ *
+ * All requests are parsed through the cors validation.
+ */
+app.all('*', (req, res, next) => {
+  let origin = req.header('Origin');
+  let domains = {
+    'http://localhost:3000': 1,
+    'https://thcd.malt.no':  1
+  };
+
+  winston.info('DEBUG: Doing CORS check');
+  winston.info(req.headers);
+
+  if (domains.hasOwnProperty(origin)) {
+    res.header(
+      'Access-Control-Allow-Origin', origin
+    );
+    res.header(
+      'Access-Control-Allow-Headers',
+      'X-Requested-With, Content-Type'
+    );
+    res.header('Access-Control-Max-Age', 72000);
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, OPTIONS');
+  }
+
+  next();
+});
+
+
 app.get('/', (req, res) => {
   res.set('Content-Type', 'application/json');
   res.send(JSON.stringify({
