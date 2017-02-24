@@ -81,6 +81,10 @@ app.get('/rates/countries', (req, res) => {
   res.send(JSON.stringify(data) + '\n');
 });
 
+/**
+ * Return json with the statistical distribution of rates as percentiles
+ * useful for graphing the data
+ */
 app.get('/rates/:country/distribution', (req, res) => {
   let country = req.params.country.toUpperCase();
   res.set('Content-Type', 'application/json');
@@ -95,20 +99,17 @@ app.get('/rates/:country/distribution', (req, res) => {
   }
 
   let data = rates.getDataForCountry(country);
-  let result = {
-    percentiles:  data.percentiles,
-    outlierRatio: data.outlierRatio,
-    average:      data.average,
-    median:       data.median,
-    version:      version,
-    description:  'Data on handling charges for all ports in a country.'
-  };
+  data.version = version;
+  data.description = 'Data on handling charges for all ports in a country.';
 
-  res.send(JSON.stringify(result) + '\n');
+  res.send(JSON.stringify(data) + '\n');
 });
 
 //
 // ... and load the model and start the server
+// Loading the model is promise based to make sure all data is loaded and in
+// memory before the server accepts connection. In a production server
+// the model backend would of course be a database.
 rates.loadModel()
 .then( () => {
   winston.info('  Loaded data model for port rates.');
