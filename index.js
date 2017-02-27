@@ -8,6 +8,7 @@
  */
 
 const express         = require('express');
+const bodyParser      = require('body-parser');
 const winston         = require('winston');
 const expressWinston  = require('express-winston');
 const version         = (require('./package')).version;
@@ -29,6 +30,8 @@ app.use(expressWinston.logger({
     })
   ]
 }));
+
+app.use(bodyParser.json());
 
 winston.info(`Starting THCD backend v${version}.`);
 
@@ -63,10 +66,15 @@ app.all('*', (req, res, next) => {
 });
 
 
+/**
+ * Root route - only returns a welcomming message.
+ */
 app.get('/', (req, res) => {
   res.set('Content-Type', 'application/json');
   res.send(JSON.stringify({
-    test: 'Hello World'
+    status: 'OK',
+    message: 'Everything is running',
+    version: version
   }) + '\n');
 });
 
@@ -79,6 +87,46 @@ app.get('/rates/countries', (req, res) => {
   };
 
   res.send(JSON.stringify(data) + '\n');
+});
+
+/**
+ * POST Add a new rate to the model.
+ */
+app.post('/rates/add', (req, res) => {
+  console.log('The request object with post:', req.body);
+  console.log('object keys:', Object.keys(req.body));
+
+  if (
+    req.body &&
+    req.body.hasOwnProperty('currency') &&
+    req.body.hasOwnProperty('amount') &&
+    req.body.hasOwnProperty('supplier') &&
+    req.body.hasOwnProperty('port')
+  ) {
+    rates.handlePostedRate(req.body).then( (result) => {
+      res.status(201)
+        .set('Content-Type', 'application/json')
+        .send(JSON.stringify({
+          status:  '201 Created',
+          message: 'Added a new rate to the system',
+          body:    result
+        }) + '\n');
+    }).catch( () => {
+      res.status(500)
+        .set('Content-Type', 'application/json')
+        .send(JSON.stringify({
+          status:  '500 Internal Server Error',
+          message: 'something unexpected happended. It will be fixed soon'
+        }) + '\n');
+    });
+  } else {
+    res.status(400);
+    res.set('Content-Type', 'application/json');
+    res.send(JSON.stringify({
+      status:  '400 Bad Request',
+      message: 'Invalid post. There must be a valid json body posted.'
+    }) + '\n');
+  }
 });
 
 /**
