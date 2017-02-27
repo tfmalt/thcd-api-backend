@@ -27,9 +27,9 @@ _in production_ on:
 
 - <https://thcd.malt.no/>
 
-The backend is run as a [node.js](https://nodejs.org/en/) -
-[express](http://expressjs.com/) based microservice with a nginx server
-doing TLS termination and routing.
+The backend is aiming to be a [node.js](https://nodejs.org/en/) -
+[express](http://expressjs.com/) stateless micro-service, with a nginx server
+doing TLS termination and routing in front.
 
 The complete separation of front-end and back-end code is a conscious
 architectural decision. The intended effect is better decoupling,
