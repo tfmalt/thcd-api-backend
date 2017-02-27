@@ -1,6 +1,6 @@
 {
   "name": "thcd-api-backend",
-  "version": "0.3.2",
+  "version": "0.4.12",
   "description": "API backend for the thcd web app",
   "private": true,
   "main": "index.js",
@@ -8,6 +8,7 @@
   "author": "Thomas Malt <thomas@malt.no>",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.16.1",
     "express": "^4.14.1",
     "express-winston": "^2.2.0",
     "fs-promise": "^2.0.0",
