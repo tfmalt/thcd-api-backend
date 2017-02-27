@@ -40,7 +40,7 @@ API source.
 
 ## About testing
 
-I've implmented a [mocha](https://mochajs.org/)-[chai](http://chaijs.com/)
+I've implemented a [mocha](https://mochajs.org/)-[chai](http://chaijs.com/)
 based test suite as a an example of how I would implement tests in a
 production system.
 
