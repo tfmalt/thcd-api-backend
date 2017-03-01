@@ -72,13 +72,17 @@ app.all('*', (req, res, next) => {
 app.get('/', (req, res) => {
   res.set('Content-Type', 'application/json');
   res.send(JSON.stringify({
-    status: 'OK',
+    status:  'OK',
     message: 'Everything is running',
     version: version
   }) + '\n');
 });
 
 app.get('/rates/countries', (req, res) => {
+  res.redirect('/countries');
+});
+
+app.get('/countries', (req, res) => {
   res.set('Content-Type', 'application/json');
   let data = {
     description: 'Returns the list of countries with names seen in the data',
